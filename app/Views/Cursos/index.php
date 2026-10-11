@@ -1,0 +1,87 @@
+<?php
+/** @var array $cursos */
+/** @var array $alunos */
+?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Cursos</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .btn { padding: 8px 12px; text-decoration: none; background: #007BFF; color: white; border-radius: 4px; display: inline-block; margin-bottom: 10px; }
+        .btn-danger { background: #dc3545; }
+        .btn-info { background: #17a2b8; }
+        .search-box { margin-bottom: 15px; }
+        .alert { padding: 10px; margin-bottom: 15px; border-radius: 4px; }
+        .alert-success { background: #d4edda; color: #155724; }
+        .alert-danger { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+
+    <h1>Gestão de Cursos</h1>
+    
+    <a href="index.php?route=curso/create" class="btn">Cadastrar Novo Curso</a>
+    <a href="index.php?route=aluno/index" class="btn" style="background: #6c757d;">Ir para Alunos</a>
+
+    <?php if (isset($_GET['sucesso'])): ?>
+        <div class="alert alert-success"><?= htmlspecialchars($_GET['sucesso']) ?></div>
+    <?php endif; ?>
+    <?php if (isset($_GET['erro'])): ?>
+        <div class="alert alert-danger"><?= htmlspecialchars($_GET['erro']) ?></div>
+    <?php endif; ?>
+
+    <!-- Formulário de Busca -->
+    <div class="search-box">
+        <form action="index.php" method="GET">
+            <input type="hidden" name="route" value="curso/index">
+            <input type="text" name="busca" placeholder="Pesquisar curso por nome..." value="<?= htmlspecialchars($_GET['busca'] ?? '') ?>" style="padding: 6px; width: 250px;">
+            <button type="submit" style="padding: 6px 12px;">Buscar</button>
+            <?php if (!empty($_GET['busca'])): ?>
+                <a href="index.php?route=curso/index" style="margin-left: 10px;">Limpar</a>
+            <?php endif; ?>
+        </form>
+    </div>
+
+    <!-- Tabela de Cursos -->
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nome do Curso</th>
+            <th>Carga Horária</th>
+            <th>Qtd. Alunos Matriculados</th>
+            <th>Ações</th>
+        </tr>
+
+        <?php if (!empty($cursos)): ?>
+            <?php foreach ($cursos as $curso): ?>
+                <?php
+                    // Conta quantos alunos estão matriculados neste curso específico
+                    $totalAlunos = count(array_filter($alunos, function($a) use ($curso) {
+                        return $a['curso_id'] == $curso['id'];
+                    }));
+                ?>
+                <tr>
+                    <td><?= htmlspecialchars($curso['id']) ?></td>
+                    <td><?= htmlspecialchars($curso['nome']) ?></td>
+                    <td><?= htmlspecialchars($curso['carga_horaria']) ?></td>
+                    <td><?= $totalAlunos ?> aluno(s)</td>
+                    <td>
+                        <a href="index.php?route=curso/show&id=<?= $curso['id'] ?>" class="btn btn-info">Ver Alunos</a>
+                        <a href="index.php?route=curso/delete&id=<?= $curso['id'] ?>" class="btn btn-danger" onclick="return confirm('Tens a certeza? Ao excluir o curso, os alunos associados perderão o vínculo.')">Excluir</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="5" style="text-align: center;">Nenhum curso cadastrado.</td>
+            </tr>
+        <?php endif; ?>
+    </table>
+
+</body>
+</html>
