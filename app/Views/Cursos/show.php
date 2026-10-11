@@ -8,12 +8,18 @@
     <meta charset="UTF-8">
     <title>Detalhes do Curso</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        th { background-color: #f4f4f4; }
-        .btn { padding: 8px 12px; text-decoration: none; background: #6c757d; color: white; border-radius: 4px; display: inline-block; margin-bottom: 15px; }
-        .card { background: #f9f9f9; padding: 15px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 20px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 30px; background-color: #f4f6f9; color: #333; }
+        h1 { color: #1e3a8a; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+        th { background-color: #1e3a8a; color: white; font-weight: 600; }
+        tr:hover { background-color: #f8fafc; }
+        .btn { padding: 8px 16px; text-decoration: none; background: #475569; color: white; border-radius: 6px; font-weight: 500; display: inline-block; margin-bottom: 20px; }
+        .btn:hover { background: #334155; }
+        .card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 25px; border-left: 5px solid #ea580c; }
+        .card h2 { margin-top: 0; color: #1e293b; }
+        .card p { margin: 8px 0; color: #475569; }
+        h3 { color: #1e293b; margin-top: 30px; }
     </style>
 </head>
 <body>
@@ -39,13 +45,13 @@
             <?php foreach ($alunosDoCurso as $aluno): ?>
                 <tr>
                     <td><?= htmlspecialchars($aluno['id']) ?></td>
-                    <td><?= htmlspecialchars($aluno['nome']) ?></td>
+                    <td><strong><?= htmlspecialchars($aluno['nome']) ?></strong></td>
                     <td><?= htmlspecialchars($aluno['email']) ?></td>
                 </tr>
             <?php endforeach; ?>
         <?php else: ?>
             <tr>
-                <td colspan="3" style="text-align: center;">Nenhum aluno matriculado neste curso atualmente.</td>
+                <td colspan="3" style="text-align: center; color: #64748b; padding: 30px;">Nenhum aluno matriculado neste curso atualmente.</td>
             </tr>
         <?php endif; ?>
     </table>
